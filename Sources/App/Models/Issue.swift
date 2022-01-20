@@ -25,6 +25,9 @@ final class Issue: Model, Content {
     
     @Parent(key: "magazineID")
     var magazine: Magazine
+    
+    @Children(for: \.$issue)
+    var rubrics: [Rubric]
 
     init() {}
 

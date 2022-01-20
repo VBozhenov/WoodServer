@@ -23,6 +23,8 @@ struct IssuesController: RouteCollection {
     func getAllHandler(_ req: Request) throws -> EventLoopFuture<[Issue]> {
         return Issue
             .query(on: req.db)
+            .sort(\.$title, .ascending)
+            .sort(\.$number, .ascending)
             .all()
     }
     
@@ -37,8 +39,7 @@ struct IssuesController: RouteCollection {
     
     func createHandler(_ req: Request) throws -> EventLoopFuture<Issue> {
         let data = try req.content.decode(CreateIssueData.self)
-        guard let magazineID = data.magazineID else { fatalError() }
-        let issue = Issue(number: data.number, title: data.title, year: data.year, magazineID: magazineID)
+        let issue = Issue(number: data.number, title: data.title, year: data.year, magazineID: data.magazineID)
         return issue.save(on: req.db).map { issue }
     }
     
@@ -51,6 +52,7 @@ struct IssuesController: RouteCollection {
                 issue.number = updateData.number
                 issue.title = updateData.title
                 issue.year = updateData.year
+                issue.$magazine.id = updateData.magazineID
                 return issue.save(on: req.db).map { issue }
             }
     }
@@ -69,6 +71,6 @@ struct CreateIssueData: Content {
     let number: Int?
     let title: String?
     let year: Int?
-    let magazineID: UUID?
+    let magazineID: UUID
 }
 

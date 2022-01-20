@@ -12,7 +12,7 @@ struct CreateRubric: Migration {
         database.schema("rubrics")
             .id()
             .field("title", .string, .required)
-            .field("issueID", .uuid, .references("issues", "id"))
+            .field("issueID", .uuid, .required, .references("issues", "id"))
             .unique(on: "title")
             .create()
     }

@@ -21,6 +21,7 @@ struct MagazinesController: RouteCollection {
     func getAllHandler(_ req: Request) throws -> EventLoopFuture<[Magazine]> {
         return Magazine
             .query(on: req.db)
+            .sort(\.$title, .ascending)
             .all()
     }
     

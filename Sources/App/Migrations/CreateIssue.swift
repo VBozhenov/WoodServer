@@ -14,7 +14,7 @@ struct CreateIssue: Migration {
             .field("number", .int)
             .field("title", .string)
             .field("year", .int)
-            .field("magazineID", .uuid, .references("magazines", "id"))
+            .field("magazineID", .uuid, .required, .references("magazines", "id"))
             .create()
     }
 

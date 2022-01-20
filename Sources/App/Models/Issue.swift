@@ -17,8 +17,8 @@ final class Issue: Model, Content {
     @OptionalField(key: "number")
     var number: Int?
     
-    @OptionalField(key: "name")
-    var name: String?
+    @OptionalField(key: "title")
+    var title: String?
     
     @Field(key: "year")
     var year: Int
@@ -28,10 +28,10 @@ final class Issue: Model, Content {
 
     init() {}
 
-    init(id: UUID? = nil, number: Int? = nil, name: String? = nil, year: Int, magazineID: Magazine.IDValue) {
+    init(id: UUID? = nil, number: Int? = nil, title: String? = nil, year: Int, magazineID: Magazine.IDValue) {
         self.id = id
         self.number = number
-        self.name = name
+        self.title = title
         self.year = year
         self.$magazine.id = magazineID
     }

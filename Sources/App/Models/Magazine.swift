@@ -14,17 +14,17 @@ final class Magazine: Model, Content {
     @ID
     var id: UUID?
 
-    @Field(key: "name")
-    var name: String
+    @Field(key: "title")
+    var title: String
     
     @Children(for: \.$magazine)
     var issues: [Issue]
 
     init() {}
 
-    init(id: UUID? = nil, name: String) {
+    init(id: UUID? = nil, title: String) {
         self.id = id
-        self.name = name
+        self.title = title
     }
 }
 

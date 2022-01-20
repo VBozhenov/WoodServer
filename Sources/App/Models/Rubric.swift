@@ -19,6 +19,9 @@ final class Rubric: Model, Content {
     
     @Parent(key: "issueID")
     var issue: Issue
+    
+    @Children(for: \.$rubric)
+    var articles: [Article]
 
     init() {}
 

@@ -15,10 +15,7 @@ struct MagazinesController: RouteCollection {
         magazinesRoute.get("all", use: getAllHandler)
         magazinesRoute.post(use: createHandler)
         magazinesRoute.put(":magazineID", use: updateHandler)
-        
-        
-//        categoriesRoute.get(":categoryID", use: getCategoryHandler)
-//        categoriesRoute.delete(":categoryID", use: deleteHandler)
+        magazinesRoute.delete(":magazineID", use: deleteHandler)
     }
 
     func getAllHandler(_ req: Request) throws -> EventLoopFuture<[Magazine]> {
@@ -42,29 +39,13 @@ struct MagazinesController: RouteCollection {
                 return magazine.save(on: req.db).map { magazine }
             }
     }
-
-//    func getCategoryHandler(_ req: Request) throws -> EventLoopFuture<Category> {
-//        guard let parameters = req.parameters.get("categoryID"),
-//              let uuid = UUID(uuidString: parameters) else { fatalError() }
-//        return Category
-//            .query(on: req.db)
-//            .filter ( \.$id == uuid )
-//            .with(\.$childrenCategories)
-//            .with(\.$items)
-//            .first()
-//            .unwrap(or: Abort(.notFound))
-//    }
-//
-//    func deleteHandler(_ req: Request) throws -> EventLoopFuture<HTTPStatus> {
-//        Category.find(req.parameters.get("categoryID"), on: req.db)
-//            .unwrap(or: Abort(.notFound))
-//            .flatMap { category in
-//                category.delete(on: req.db)
-//                    .transform(to: .noContent)
-//            }
-//    }
+    
+    func deleteHandler(_ req: Request) throws -> EventLoopFuture<HTTPStatus> {
+        Magazine.find(req.parameters.get("magazineID"), on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { magazine in
+                magazine.delete(on: req.db)
+                    .transform(to: .noContent)
+            }
+    }
 }
-
-//struct CreateMagazineData: Content {
-//    let title: String
-//}

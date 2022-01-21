@@ -22,6 +22,7 @@ struct MagazinesController: RouteCollection {
         return Magazine
             .query(on: req.db)
             .sort(\.$title, .ascending)
+            .with(\.$issues)
             .all()
     }
     

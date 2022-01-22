@@ -27,7 +27,7 @@ final class Issue: Model, Content {
     var magazine: Magazine
     
     @Children(for: \.$issue)
-    var rubrics: [Rubric]
+    var articles: [Article]
 
     init() {}
 

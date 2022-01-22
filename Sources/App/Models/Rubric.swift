@@ -17,17 +17,13 @@ final class Rubric: Model, Content {
     @Field(key: "title")
     var title: String
     
-    @Parent(key: "issueID")
-    var issue: Issue
-    
     @Children(for: \.$rubric)
     var articles: [Article]
 
     init() {}
 
-    init(id: UUID? = nil, title: String, issueID: Issue.IDValue) {
+    init(id: UUID? = nil, title: String) {
         self.id = id
         self.title = title
-        self.$issue.id = issueID
     }
 }

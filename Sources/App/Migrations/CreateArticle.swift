@@ -14,6 +14,7 @@ struct CreateArticle: Migration {
             .field("title", .string, .required)
             .field("page", .int, .required)
             .field("description", .string)
+            .field("issueID", .uuid, .required, .references("issues", "id"))
             .field("rubricID", .uuid, .required, .references("rubrics", "id"))
             .create()
     }

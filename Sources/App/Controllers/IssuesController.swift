@@ -25,7 +25,7 @@ struct IssuesController: RouteCollection {
             .query(on: req.db)
             .sort(\.$title, .ascending)
             .sort(\.$number, .ascending)
-//            .with(\.$rubrics)
+            .with(\.$articles)
             .all()
     }
     

@@ -11,7 +11,6 @@ struct CreateIssue: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         database.schema("issues")
             .id()
-            .field("number", .int)
             .field("title", .string)
             .field("year", .int)
             .field("magazineID", .uuid, .required, .references("magazines", "id"))

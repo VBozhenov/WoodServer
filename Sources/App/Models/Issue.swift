@@ -13,15 +13,12 @@ final class Issue: Model, Content {
 
     @ID
     var id: UUID?
-
-    @OptionalField(key: "number")
-    var number: Int?
     
-    @OptionalField(key: "title")
-    var title: String?
+    @Field(key: "title")
+    var title: String
     
-    @OptionalField(key: "year")
-    var year: Int?
+    @Field(key: "year")
+    var year: Int
     
     @Parent(key: "magazineID")
     var magazine: Magazine
@@ -31,9 +28,8 @@ final class Issue: Model, Content {
 
     init() {}
 
-    init(id: UUID? = nil, number: Int? = nil, title: String? = nil, year: Int? = nil, magazineID: Magazine.IDValue) {
+    init(id: UUID? = nil, title: String, year: Int, magazineID: Magazine.IDValue) {
         self.id = id
-        self.number = number
         self.title = title
         self.year = year
         self.$magazine.id = magazineID

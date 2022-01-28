@@ -26,12 +26,12 @@ final class Article: Model, Content {
     @Parent(key: "issueID")
     var issue: Issue
     
-    @Parent(key: "rubricID")
-    var rubric: Rubric
+    @OptionalParent(key: "rubricID")
+    var rubric: Rubric?
 
     init() {}
 
-    init(id: UUID? = nil, title: String, page: Int, description: String? = nil, issueID: Issue.IDValue, rubricID: Rubric.IDValue) {
+    init(id: UUID? = nil, title: String, page: Int, description: String? = nil, issueID: Issue.IDValue, rubricID: Rubric.IDValue? = nil) {
         self.id = id
         self.title = title
         self.page = page

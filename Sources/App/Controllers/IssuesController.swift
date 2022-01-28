@@ -29,12 +29,6 @@ struct IssuesController: RouteCollection {
     }
     
     func getMagazineIssuesHandler(_ req: Request) throws -> EventLoopFuture<[Issue]> {
-//        Magazine
-//            .find(req.parameters.get("magazineID"), on: req.db)
-//            .unwrap(or: Abort(.notFound))
-//            .flatMap { magazine in
-//                magazine.$issues.get(on: req.db)
-//            }
         let stringMagazineID = req.parameters.get("magazineID") ?? ""
         let magazineID = UUID(uuidString: stringMagazineID) ?? UUID()
         return Issue
@@ -43,7 +37,6 @@ struct IssuesController: RouteCollection {
             .sort(\.$title, .ascending)
             .with(\.$articles)
             .all()
-
     }
     
     func createHandler(_ req: Request) throws -> EventLoopFuture<Issue> {

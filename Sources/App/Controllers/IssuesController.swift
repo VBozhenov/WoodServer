@@ -29,12 +29,21 @@ struct IssuesController: RouteCollection {
     }
     
     func getMagazineIssuesHandler(_ req: Request) throws -> EventLoopFuture<[Issue]> {
-        Magazine
-            .find(req.parameters.get("magazineID"), on: req.db)
-            .unwrap(or: Abort(.notFound))
-            .flatMap { magazine in
-                magazine.$issues.get(on: req.db)
-            }
+//        Magazine
+//            .find(req.parameters.get("magazineID"), on: req.db)
+//            .unwrap(or: Abort(.notFound))
+//            .flatMap { magazine in
+//                magazine.$issues.get(on: req.db)
+//            }
+        let stringMagazineID = req.parameters.get("magazineID") ?? ""
+        let magazineID = UUID(uuidString: stringMagazineID) ?? UUID()
+        return Issue
+            .query(on: req.db)
+            .filter(\.$magazine.$id == magazineID)
+            .sort(\.$title, .ascending)
+            .with(\.$articles)
+            .all()
+
     }
     
     func createHandler(_ req: Request) throws -> EventLoopFuture<Issue> {

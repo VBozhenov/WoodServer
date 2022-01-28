@@ -11,9 +11,10 @@ struct CreateIssue: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         database.schema("issues")
             .id()
-            .field("title", .string)
-            .field("year", .int)
+            .field("title", .string, .required)
+            .field("year", .int, .required)
             .field("magazineID", .uuid, .required, .references("magazines", "id"))
+            .unique(on: "title", "year")
             .create()
     }
 

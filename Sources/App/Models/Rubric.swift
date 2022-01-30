@@ -17,8 +17,8 @@ final class Rubric: Model, Content {
     @Field(key: "title")
     var title: String
     
-    @Children(for: \.$rubric)
-    var articles: [Article]
+//    @Children(for: \.$rubric)
+//    var articles: [Article]
 
     init() {}
 

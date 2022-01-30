@@ -14,8 +14,8 @@ struct ArticlesController: RouteCollection {
         let articlesRoute = routes.grouped("api", "articles")
         
         articlesRoute.get("all", use: getAllHandler)
-        articlesRoute.get(":issueID", use: getIssueArticlesHandler)
-        articlesRoute.get(":rubricID", use: getRubricArticlesHandler)
+        articlesRoute.get("issue", ":issueID", use: getIssueArticlesHandler)
+//        articlesRoute.get("rubric", ":rubricID", use: getRubricArticlesHandler)
         articlesRoute.post(use: createHandler)
         articlesRoute.put(":articleID", use: updateHandler)
         articlesRoute.delete(":articleID", use: deleteHandler)
@@ -26,7 +26,7 @@ struct ArticlesController: RouteCollection {
             .query(on: req.db)
             .sort(\.$title, .ascending)
             .with(\.$issue)
-            .with(\.$rubric)
+//            .with(\.$rubric)
             .all()
     }
     
@@ -38,25 +38,25 @@ struct ArticlesController: RouteCollection {
             .filter(\.$issue.$id == issueID)
             .sort(\.$title, .ascending)
             .with(\.$issue)
-            .with(\.$rubric)
+//            .with(\.$rubric)
             .all()
     }
     
-    func getRubricArticlesHandler(_ req: Request) throws -> EventLoopFuture<[Article]> {
-        let stringRubricID = req.parameters.get("rubricID") ?? ""
-        let rubricID = UUID(uuidString: stringRubricID) ?? UUID()
-        return Article
-            .query(on: req.db)
-            .filter(\.$rubric.$id == rubricID)
-            .sort(\.$title, .ascending)
-            .with(\.$issue)
-            .with(\.$rubric)
-            .all()
-    }
+//    func getRubricArticlesHandler(_ req: Request) throws -> EventLoopFuture<[Article]> {
+//        let stringRubricID = req.parameters.get("rubricID") ?? ""
+//        let rubricID = UUID(uuidString: stringRubricID) ?? UUID()
+//        return Article
+//            .query(on: req.db)
+//            .filter(\.$rubric.$id == rubricID)
+//            .sort(\.$title, .ascending)
+//            .with(\.$issue)
+//            .with(\.$rubric)
+//            .all()
+//    }
     
     func createHandler(_ req: Request) throws -> EventLoopFuture<Article> {
         let data = try req.content.decode(CreateArticleData.self)
-        let article = Article(title: data.title, page: data.page, description: data.description, issueID: data.issueID, rubricID: data.rubricID)
+        let article = Article(title: data.title, page: data.page, description: data.description, issueID: data.issueID)
         return article.save(on: req.db).map { article }
     }
     
@@ -69,7 +69,7 @@ struct ArticlesController: RouteCollection {
                 article.title = updateData.title
                 article.page = updateData.page
                 article.description = updateData.description
-                article.$rubric.id = updateData.rubricID
+//                article.$rubric.id = updateData.rubricID
                 article.$issue.id = updateData.issueID
                 return article.save(on: req.db).map { article }
             }
@@ -90,7 +90,7 @@ struct CreateArticleData: Content {
     let page: Int
     let description: String?
     let issueID: UUID
-    let rubricID: UUID?
+//    let rubricID: UUID?
 }
 
 

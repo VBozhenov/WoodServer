@@ -22,7 +22,7 @@ struct RubricsController: RouteCollection {
         return Rubric
             .query(on: req.db)
             .sort(\.$title, .ascending)
-            .with(\.$articles)
+//            .with(\.$articles)
             .all()
     }
     

@@ -24,6 +24,7 @@ struct IssuesController: RouteCollection {
         return Issue
             .query(on: req.db)
             .sort(\.$title, .ascending)
+            .with(\.$magazine)
             .with(\.$articles)
             .all()
     }
@@ -35,6 +36,7 @@ struct IssuesController: RouteCollection {
             .query(on: req.db)
             .filter(\.$magazine.$id == magazineID)
             .sort(\.$title, .ascending)
+            .with(\.$magazine)
             .with(\.$articles)
             .all()
     }
